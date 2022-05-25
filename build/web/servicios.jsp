@@ -1,3 +1,5 @@
+<%@page import="Controller.CategoriasController" %>
+<%@page import="java.sql.ResultSet" %>
 <%@include file="Layout/Header.jsp"%>
 <%@include file="Layout/Navbar.jsp"%>
 <div class="container">
@@ -13,12 +15,17 @@
                 <label class="form-label">Nombre del Servicio</label>
                 <input class="form-control" name="txtNombre" required>
             </div>
+            <% 
+                CategoriasController objCate = new CategoriasController();
+                ResultSet lCategorias = objCate.listCategoria();
+            %>
             <div class="col-4">
                 <label for="txtCategoria" class="form-label">Categoría</label>
                 <select class="form-select" name="txtCategoria">
                     <option selected>Seleccione...</option>
-                    <option value="1">Telefonía</option>
-                    <option value="2">Servicios generales</option>
+                    <% while(lCategorias.next()){ %>
+                    <option value="<%=lCategorias.getInt("idCategoria")%>"><%=lCategorias.getString("nombreCat")%></option>
+                    <% } %>
                 </select>
             </div>
         </div>
