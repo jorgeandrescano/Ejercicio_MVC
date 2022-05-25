@@ -1,0 +1,24 @@
+CREATE DATABASE mi_empresa;
+
+use mi_empresa;
+
+CREATE table categorias(
+    idCategoria INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombreCat varchar(50) NOT NULL
+);
+    
+CREATE TABLE SERVICIOS(
+    idServicio INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    idCategoria INT NOT NULL,
+    FOREIGN KEY (idCategoria) REFERENCES categorias (idCategoria),
+    nombreServ VARCHAR(80) NOT NULL,
+    medida VARCHAR(15) NOT NULL,
+    costo FLOAT(15,2) NOT NULL,
+    estado INT NOT NULL
+);
+
+INSERT into categorias
+VALUES(DEFAULT,"Telefonía"), (DEFAULT,"Servicios generales");
+
+INSERT into servicios 
+VALUES(DEFAULT,1,"Telefonía IPTV","Servicios",100000,1);
