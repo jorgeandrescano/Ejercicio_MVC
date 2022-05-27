@@ -9,7 +9,7 @@
 </div>
 
 <div class="container" style="margin-top: 30px">
-    <form id="form-serv" action="" method="get">
+    <form id="form-serv" action="ServiciosController" method="post">
         <div class="row mb-4">
             <div class="col-4">
                 <label class="form-label">Nombre del Servicio</label>
@@ -48,7 +48,7 @@
             </div>
             <div class="col-4">
                 <br>
-                <button type="submit" class="btn btn-outline-success p-1 px-2 mt-2" name="agregar">+ Agregar</button>
+                <button type="submit" class="btn btn-outline-success p-1 px-2 mt-2" name="btnGuardar">Guardar</button>
             </div>
         </div>
     </form>
