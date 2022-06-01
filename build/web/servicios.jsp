@@ -9,11 +9,11 @@
 </div>
 
 <div class="container" style="margin-top: 30px">
-    <form id="form-serv" action="ServiciosController" method="post">
+    <form action="ServiciosController" method="post" id="form-serv">
         <div class="row mb-4">
             <div class="col-4">
                 <label class="form-label">Nombre del Servicio</label>
-                <input class="form-control" name="txtNombre" required>
+                <input class="form-control" name="txtNombreServ" required>
             </div>
             <% 
                 CategoriasController objCate = new CategoriasController();

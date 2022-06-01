@@ -8,6 +8,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import Model.Servicios;
+import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,14 +34,39 @@ public class ServiciosController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String btnGuardar = request.getParameter("btnGuardar");
+        HttpSession miSession = request.getSession();
+        
         if(btnGuardar != null) {
-            String txtNombre = request.getParameter("txtNombre");
+            String txtNombreServ = request.getParameter("txtNombreServ");
             String txtCategoria = request.getParameter("txtCategoria");
             String txtMedida = request.getParameter("txtMedida");
             String txtCosto= request.getParameter("txtCosto");
             String txtEstado = request.getParameter("txtEstado");
-  
+        try {
+            Servicios objServ = new Servicios();
+            objServ.setnombreServ(txtNombreServ);
+            objServ.setidCategoria(Integer.parseInt(txtCategoria));
+            objServ.setmedida(txtMedida);
+            objServ.setcosto(Float.parseFloat(txtCosto));
+            objServ.setestado(Integer.parseInt(txtEstado));
+            //objServ.setestado(Boolean.valueOf(txtEstado));
+            int resultado = objServ.guardarServicios();
+            
+            if(resultado == 1){
+                miSession.setAttribute("Registro", true);
+            }else {
+                miSession.setAttribute("Registro", false);
+                miSession.setAttribute("msj", "No se pudo guardar");
+            }
+            
+        } catch (SQLException ex) {
+               Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
+          }catch (Exception e){
+             miSession.setAttribute("Registro", false);
+             miSession.setAttribute("msj",e.getMessage());
+          }
         }
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
