@@ -60,10 +60,7 @@ public class ServiciosController extends HttpServlet {
                 miSession.setAttribute("msj", "No se pudo guardar");
             }
             
-        } catch(SQLException ex) {
-               Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
-               
-          } catch(Exception e){
+        } catch(Exception e){
                 miSession.setAttribute("Registro", false);
                 miSession.setAttribute("msj", e.getMessage());
             }

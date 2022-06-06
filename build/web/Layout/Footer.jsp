@@ -22,6 +22,21 @@
 <script src="Assets/js/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="Library/Validacion/jquery.validate.min.js" type="text/javascript"></script>
 <script src="Library/Alertas/sweetalert2.all.min.js" type="text/javascript"></script>
+<script>
+    <%
+        HttpSession miSession = request.getSession();
+        if(miSession.getAttribute("Registro")!= null) {
+            boolean Registro = (boolean) miSession.getAttribute("Registro");
+            if (Registro) { %>
+                Swal.fire("Servicio registrado con éxito", "<%=Registro%>", "success");
+            <% }else{ %>
+                Swal.fire("No se pudo registrar el servicio", "<%=Registro%>", "error");
+            <% }
+            //Si ya se mostró el mensaje, hay que removerlo
+            miSession.removeAttribute("Registro");
+        }
+    %>
+</script>
 
 </body>
 </html>
