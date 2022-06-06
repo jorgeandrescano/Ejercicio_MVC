@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import Model.Servicios;
+import Model.Servicio;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -44,7 +44,7 @@ public class ServiciosController extends HttpServlet {
             String txtEstado = request.getParameter("txtEstado");
             
         try {
-            Servicios objServ = new Servicios();
+            Servicio objServ = new Servicio();
             objServ.setnombreServ(txtNombreServ);
             objServ.setidCategoria(Integer.parseInt(txtCategoria));
             objServ.setmedida(txtMedida);
@@ -62,6 +62,7 @@ public class ServiciosController extends HttpServlet {
             
         } catch(SQLException ex) {
                Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
+               
           } catch(Exception e){
                 miSession.setAttribute("Registro", false);
                 miSession.setAttribute("msj", e.getMessage());

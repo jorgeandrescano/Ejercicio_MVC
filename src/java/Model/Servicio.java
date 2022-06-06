@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Servicios {
+public class Servicio {
     private int idServicio;
     private int idCategoria;
     private String nombreServ;
@@ -73,7 +73,7 @@ public class Servicios {
         this.cxDB = cxDB;
     }
     
-    public Servicios(){
+    public Servicio(){
         Conexion oDB = new Conexion();
         this.cxDB = oDB.miConexion();
     }
@@ -88,10 +88,10 @@ public class Servicios {
             stm.setString(3,this.medida);
             stm.setFloat(4,this.costo);
             stm.setInt(5,this.estado);
-            
+            rowGuardados = stm.executeUpdate();
             
         } catch (SQLException ex) {
-            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rowGuardados;
     }
@@ -109,7 +109,7 @@ public class Servicios {
             stm.setInt(6,this.idServicio);
             rowEditados = stm.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rowEditados;
     }
@@ -118,11 +118,12 @@ public class Servicios {
         String sql = "SELECT servicios.*, categorias.nombreCat FROM servicios INNER JOIN categorias"
                 + "ON (servicios.idCategoria = categorias.idCategoria)";
         ResultSet listaServicios = null;
+        
         try{
             PreparedStatement stm =this.cxDB.prepareStatement(sql);
             listaServicios = stm.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaServicios;
     }
@@ -132,9 +133,10 @@ public class Servicios {
         ResultSet consultarServicios = null;
         try{
             PreparedStatement stm =this.cxDB.prepareStatement(sql);
+            stm.setInt(1, this.idServicio);
             consultarServicios = stm.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return consultarServicios;
     }
