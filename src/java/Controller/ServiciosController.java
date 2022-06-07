@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import Model.Servicio;
 import jakarta.servlet.http.HttpSession;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
  */
 @WebServlet(name = "ServiciosController", urlPatterns = {"/ServiciosController"})
 public class ServiciosController extends HttpServlet {
-
+  
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,6 +35,7 @@ public class ServiciosController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String btnGuardar = request.getParameter("btnGuardar");
+        String idServicio = request.getParameter("idServicio");
         HttpSession miSession = request.getSession();
         
         if(btnGuardar != null) {
@@ -78,6 +80,11 @@ public class ServiciosController extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
+    }
+    
+    public ResultSet listar() throws SQLException{
+        Servicio lServ = new Servicio();
+        return lServ.listarServicios();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -1,4 +1,5 @@
 <%@page import="Controller.CategoriasController" %>
+<%@page import="Controller.ServiciosController" %>
 <%@page import="java.sql.ResultSet" %>
 <%@include file="Layout/Header.jsp"%>
 <%@include file="Layout/Navbar.jsp"%>
@@ -59,7 +60,6 @@
     <h4>Lista de Servicios</h4>
     <br>
     <table class="table table-striped">
-
         <thead>
             <tr class="table-dark">
                 <th scope="col">Id Servicio</th>
@@ -72,22 +72,30 @@
             </tr>
         </thead>
         <tbody>
+            <% ServiciosController listaServ = new ServiciosController();
+                ResultSet listaS = listaServ.listar();
+                while(listaS.next()) {
+            %>    
             <tr>
-                <td>1</td>
-                <td>Telefonia IPTV</td>
-                <td>Telefonía</td>
-                <td>x Servicio</td>
-                <td>$100,000</td>
-                <td>Activo</td>
+                <td><%=listaS.getInt("idServicio")%></td>
+                <td><%=listaS.getString("nombreCat")%></td>
+                <td><%=listaS.getString("nombreServ")%></td>
+                <td><%=listaS.getString("medida")%></td>
+                <td><%=listaS.getFloat("costo")%></td>
+                <td><%=listaS.getInt("estado") == 1 ? "Activo" : "Inactivo"%></td>
                 <td>
                     <div class="d-grid gap-2 d-md-block">
-                        <button class="btn btn-primary btn-sm btn-primary" type="button">Editar</button>
-                        <button class="btn btn-primary btn-sm btn-warning" type="button">Desactivar</button>
-                        <button class="btn btn-primary btn-sm btn-danger" type="button">Eliminar</button>
+                        <button class="btn btn-primary btn-sm btn-primary" type="button" name="btnEditar">Editar</button>
+                        <% if(listaS.getInt("Estado") == 1){ %>
+                            <a href="/ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=0" class="btn btn-primary btn-sm btn-danger">Inactivar</a>
+                        <% } else { %>
+                            <a href="/ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=1" class="btn btn-primary btn-sm btn-danger">Activar</a>
+                        <% } %>
+                        <button class="btn btn-primary btn-sm btn-danger" type="button" name="btnEliminar">Eliminar</button>
                     </div>
                 </td>
             </tr>
-
+                <% } %> 
         </tbody>
 
     </table>
