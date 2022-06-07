@@ -63,8 +63,8 @@
         <thead>
             <tr class="table-dark">
                 <th scope="col">Id Servicio</th>
-                <th scope="col">Servicio</th>
                 <th scope="col">Categoría</th>
+                <th scope="col">Servicio</th>
                 <th scope="col">Medida</th>
                 <th scope="col">Costo</th>
                 <th scope="col">Estado</th>
@@ -89,7 +89,7 @@
                         <% if(listaS.getInt("Estado") == 1){ %>
                             <a href="/ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=0" class="btn btn-primary btn-sm btn-danger">Inactivar</a>
                         <% } else { %>
-                            <a href="/ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=1" class="btn btn-primary btn-sm btn-danger">Activar</a>
+                            <a href="/ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=1" class="btn btn-primary btn-sm btn-success">Activar</a>
                         <% } %>
                         <button class="btn btn-primary btn-sm btn-danger" type="button" name="btnEliminar">Eliminar</button>
                     </div>

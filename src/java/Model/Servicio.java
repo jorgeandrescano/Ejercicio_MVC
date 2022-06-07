@@ -115,8 +115,7 @@ public class Servicio {
     }
     
     public ResultSet listarServicios(){
-        String sql = "SELECT servicios.*, categorias.nombreCat FROM servicios INNER JOIN categorias"
-                + "ON (servicios.idCategoria = categorias.idCategoria)";
+        String sql = "SELECT servicios.*, categorias.nombreCat FROM servicios INNER JOIN categorias ON (servicios.idCategoria = categorias.idCategoria)";
         ResultSet listaServicios = null;
         
         try{

@@ -67,9 +67,9 @@ public class ServiciosController extends HttpServlet {
                 miSession.setAttribute("msj", e.getMessage());
             }
         }
-        
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+        response.sendRedirect("servicios.jsp");
+        /*try (PrintWriter out = response.getWriter()) {
+             TODO output your page here. You may use following sample code. 
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -79,7 +79,8 @@ public class ServiciosController extends HttpServlet {
             out.println("<h1>Servlet ServiciosController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-        }
+        }*/
+        
     }
     
     public ResultSet listar() throws SQLException{
