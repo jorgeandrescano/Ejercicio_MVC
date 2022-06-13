@@ -139,4 +139,18 @@ public class Servicio {
         }
         return consultarServicios;
     }
+    
+    public int cambiarServicio() {
+        String sql = "UPDATE servicios SET estado=? WHERE idServicio=?";
+        int rowCambiados = 0;
+        try{
+            PreparedStatement stm = this.cxDB.prepareStatement(sql);
+            stm.setInt(1, this.estado);
+            stm.setInt(2, this.idServicio);
+            rowCambiados = stm.executeUpdate();
+        } catch (SQLException ex){
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowCambiados;
+    }
 }

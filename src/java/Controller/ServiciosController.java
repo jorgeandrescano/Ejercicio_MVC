@@ -61,12 +61,11 @@ public class ServiciosController extends HttpServlet {
                 miSession.setAttribute("Registro", false);
                 miSession.setAttribute("msj", "No se pudo guardar");
             }
-            
-        } catch(Exception e){
+                 } catch(Exception e){
                 miSession.setAttribute("Registro", false);
                 miSession.setAttribute("msj", e.getMessage());
+                 }
             }
-        }
         response.sendRedirect("servicios.jsp");
         /*try (PrintWriter out = response.getWriter()) {
              TODO output your page here. You may use following sample code. 
