@@ -36,6 +36,7 @@ public class ServiciosController extends HttpServlet {
         
         String btnGuardar = request.getParameter("btnGuardar");
         String idServicio = request.getParameter("idServicio");
+        String idEditar = request.getParameter("idEditar");  
         HttpSession miSession = request.getSession();
         
         if(btnGuardar != null) {
@@ -61,14 +62,49 @@ public class ServiciosController extends HttpServlet {
                 miSession.setAttribute("Registro", false);
                 miSession.setAttribute("msj", "No se pudo guardar");
             }
-                 } catch(Exception e){
+            
+        } catch(NumberFormatException e){
                 miSession.setAttribute("Registro", false);
                 miSession.setAttribute("msj", e.getMessage());
-                 }
             }
-        response.sendRedirect("servicios.jsp");
-        /*try (PrintWriter out = response.getWriter()) {
-             TODO output your page here. You may use following sample code. 
+        
+         response.sendRedirect("servicios.jsp");
+        
+        } else if (idServicio != null){
+            String Estado= request.getParameter("estado");
+            
+           try {
+                Servicio eServ= new Servicio();
+                eServ.setidServicio(Integer.parseInt(idServicio));
+                eServ.setestado(Integer.parseInt(Estado));
+                
+                if (eServ.cambiarServicio() == 1) {
+                    miSession.setAttribute("Registro", true);
+                    miSession.setAttribute("msj", "Cambiaste de estado con exito");
+                }else{
+                    miSession.setAttribute("Registro", false);
+                    miSession.setAttribute("msj", "No se pudo cambiar el estado");               
+                }
+                
+                response.sendRedirect("servicios.jsp");
+                
+           } catch (IOException | NumberFormatException ex) {
+                Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else if (idEditar != null){
+            try {
+                Servicio eServ= new Servicio();
+                ResultSet resEditar= eServ.consultarServicios();
+                miSession.setAttribute("datosEdit", resEditar); 
+            } catch (Exception ex) {
+                 Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);               
+            }
+            
+            response.sendRedirect("servicios.jsp");
+        }
+        
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -78,8 +114,7 @@ public class ServiciosController extends HttpServlet {
             out.println("<h1>Servlet ServiciosController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-        }*/
-        
+        }
     }
     
     public ResultSet listar() throws SQLException{
