@@ -8,7 +8,7 @@
     ResultSet datosEditar = null;
     HttpSession miSession1 = request.getSession();
     if(miSession1.getAttribute("datosEdit") != null){
-    datosEditar =(ResultSet) miSession1.getAttribute("datosEdit");
+    datosEditar =(ResultSet)miSession1.getAttribute("datosEdit");
     datosEditar.next();
     }
 %>
@@ -21,11 +21,11 @@
 
 <div class="container" style="margin-top: 30px">
     <form action="ServiciosController" method="post" id="form-serv">
-        <input class="form-control" type="hidden" name="txtIdServicio" value="<%= datosEditar != null? datosEditar.getInt("idServicio"): ""%>">
+        <input class="form-control" type="hidden" name="txtIdServicio" value="<%= datosEditar != null? datosEditar.getInt("idServicio"): null%>">
         <div class="row mb-4">
             <div class="col-4">
                 <label class="form-label">Nombre del Servicio</label>
-                <input class="form-control" name="txtNombreServ" value="<%=datosEditar != null?datosEditar.getString("nombreServ"): ""%>" required>
+                <input class="form-control" name="txtNombreServ" value="<%=datosEditar != null?datosEditar.getString("nombreServ"): null%>" required>
             </div>
             <% 
                 CategoriasController objCate = new CategoriasController();
@@ -45,18 +45,18 @@
         <div class="row mb-4">
             <div class="col-4">
                 <label class="form-label">Medida</label>
-                <input class="form-control" name="txtMedida" value="<%=datosEditar != null?datosEditar.getString("medida"): ""%>" required>
+                <input class="form-control" name="txtMedida" value="<%=datosEditar != null?datosEditar.getString("medida"): null%>" required>
             </div>
             <div class="col-4">
                 <label class="form-label">Costo</label>
-                <input class="form-control" name="txtCosto" value="<%=datosEditar != null?datosEditar.getFloat("costo"): ""%>" required>
+                <input class="form-control" name="txtCosto" value="<%=datosEditar != null?datosEditar.getFloat("costo"): null%>" required>
             </div>
         </div>
 
         <div class="row mb-4">
             <div class="col-4">
                 <label class="form-label">Estado</label>
-                <input class="form-control" name="txtEstado" value="<%=datosEditar != null?datosEditar.getInt("estado"): ""%>" required>
+                <input class="form-control" name="txtEstado" value="<%=datosEditar != null?datosEditar.getInt("estado"): null%>" required>
             </div>
             <div class="col-4">
                 <br>

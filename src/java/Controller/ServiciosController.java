@@ -38,6 +38,7 @@ public class ServiciosController extends HttpServlet {
         String idServicio = request.getParameter("idServicio");
         String idEditar = request.getParameter("idEditar");  
         HttpSession miSession = request.getSession();
+        HttpSession miSession1 = request.getSession();
         
         if(btnGuardar != null) {
             String txtNombreServ = request.getParameter("txtNombreServ");
@@ -94,6 +95,7 @@ public class ServiciosController extends HttpServlet {
         }else if (idEditar != null){
             try {
                 Servicio eServ= new Servicio();
+                eServ.setidServicio(Integer.parseInt(idEditar));
                 ResultSet resEditar= eServ.consultarServicios();
                 miSession.setAttribute("datosEdit", resEditar); 
             } catch (Exception ex) {
