@@ -21,11 +21,11 @@
 
 <div class="container" style="margin-top: 30px">
     <form action="ServiciosController" method="post" id="form-serv">
-        <input class="form-control" type="hidden" name="txtIdServicio" value="<%= datosEditar != null? datosEditar.getInt("idServicio"): null%>">
+        <input class="form-control" type="hidden" name="txtIdServicio" value="<%= datosEditar != null? datosEditar.getInt("idServicio"): ""%>">
         <div class="row mb-4">
             <div class="col-4">
                 <label class="form-label">Nombre del Servicio</label>
-                <input class="form-control" name="txtNombreServ" value="<%=datosEditar != null?datosEditar.getString("nombreServ"): null%>" required>
+                <input class="form-control" name="txtNombreServ" value="<%=datosEditar != null?datosEditar.getString("nombreServ"): ""%>" required>
             </div>
             <% 
                 CategoriasController objCate = new CategoriasController();
@@ -36,7 +36,7 @@
                 <select class="form-select" name="txtCategoria">
                     <option selected>Seleccione...</option>
                     <% while(lCategorias.next()){ %>
-                    <option value="<%=lCategorias.getInt("idCategoria")%>"><%=lCategorias.getString("nombreCat")%></option>
+                    <option <%=datosEditar != null ? datosEditar.getInt("idCategoria") == lCategorias.getInt("idCategoria")? "selected" : "" : ""%> value ="<%=lCategorias.getInt("idCategoria")%>"> <%=lCategorias.getString("nombreCat")%> </option>
                     <% } %>
                 </select>
             </div>
@@ -45,25 +45,25 @@
         <div class="row mb-4">
             <div class="col-4">
                 <label class="form-label">Medida</label>
-                <input class="form-control" name="txtMedida" value="<%=datosEditar != null?datosEditar.getString("medida"): null%>" required>
+                <input class="form-control" name="txtMedida" value="<%=datosEditar != null?datosEditar.getString("medida"): ""%>" required>
             </div>
             <div class="col-4">
                 <label class="form-label">Costo</label>
-                <input class="form-control" name="txtCosto" value="<%=datosEditar != null?datosEditar.getFloat("costo"): null%>" required>
+                <input class="form-control" name="txtCosto" value="<%=datosEditar != null?datosEditar.getFloat("costo"): ""%>" required>
             </div>
         </div>
 
         <div class="row mb-4">
             <div class="col-4">
                 <label class="form-label">Estado</label>
-                <input class="form-control" name="txtEstado" value="<%=datosEditar != null?datosEditar.getInt("estado"): null%>" required>
+                <input class="form-control" name="txtEstado" value="<%=datosEditar != null?datosEditar.getInt("estado"): ""%>" required>
             </div>
             <div class="col-4">
                 <br>
                 <%if(datosEditar != null) {%>
-                <button type="submit" class="btn btn-outline-warning p-1 px-2 mt-2" name="btnModificar">Modificar</button>
+                <button type="submit" class="btn btn-warning p-1 px-2 mt-2" name="btnModificar">Modificar</button>
                 <% }else{ %>
-                <button type="submit" class="btn btn-outline-success p-1 px-2 mt-2" name="btnGuardar">Guardar</button>
+                <button type="submit" class="btn btn-success p-1 px-2 mt-2" name="btnGuardar">+Agregar</button>
                 <% } %>
             </div>
         </div>

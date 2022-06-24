@@ -35,6 +35,7 @@ public class ServiciosController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String btnGuardar = request.getParameter("btnGuardar");
+        String btnModificar = request.getParameter("btnModificar");
         String idServicio = request.getParameter("idServicio");
         String idEditar = request.getParameter("idEditar");  
         HttpSession miSession = request.getSession();
@@ -81,7 +82,7 @@ public class ServiciosController extends HttpServlet {
                 
                 if (eServ.cambiarServicio() == 1) {
                     miSession.setAttribute("Registro", true);
-                    miSession.setAttribute("msj", "Cambiaste de estado con exito");
+                    miSession.setAttribute("msj", "Cambio de estado con exito");
                 }else{
                     miSession.setAttribute("Registro", false);
                     miSession.setAttribute("msj", "No se pudo cambiar el estado");               
@@ -98,12 +99,47 @@ public class ServiciosController extends HttpServlet {
                 eServ.setidServicio(Integer.parseInt(idEditar));
                 ResultSet resEditar= eServ.consultarServicios();
                 miSession.setAttribute("datosEdit", resEditar); 
-            } catch (Exception ex) {
+            } catch (NumberFormatException ex) {
                  Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);               
             }
             
             response.sendRedirect("servicios.jsp");
+        }else if (btnModificar != null){
+            String txtCategoria = request.getParameter("txtCategoria");
+            String txtNombreServ = request.getParameter("txtNombreServ");
+            String txtMedida = request.getParameter("txtMedida");
+            String txtCosto= request.getParameter("txtCosto");
+            String txtEstado = request.getParameter("txtEstado");
+            String txtIdServicio = request.getParameter("txtIdServicio");
+            
+        try {
+            Servicio objServ = new Servicio();
+            objServ.setnombreServ(txtNombreServ);
+            objServ.setidCategoria(Integer.parseInt(txtCategoria));
+            objServ.setmedida(txtMedida);
+            objServ.setcosto(Float.parseFloat(txtCosto));
+            objServ.setestado(Integer.parseInt(txtEstado));
+            objServ.setidServicio(Integer.parseInt(txtIdServicio));
+            //objServ.setestado(Boolean.valueOf(txtEstado));
+            int resultado = objServ.editarServicios();
+            
+            if (resultado == 1){
+                miSession.setAttribute("Registro", true);
+                miSession.setAttribute("msj", "Registro editado");
+            }else {
+                miSession.setAttribute("Registro", false);
+                miSession.setAttribute("msj", "No se pudo modificar");
+            }
+           
+        //} catch (SQLException ex){
+            //Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NumberFormatException e){
+            miSession.setAttribute("Registro", false);
+            miSession.setAttribute("msj", e.getMessage());
         }
+        miSession.removeAttribute("datosEdit");
+        response.sendRedirect("servicios.jsp");
+     }
         
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */

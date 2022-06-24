@@ -128,7 +128,7 @@ public class Servicio {
     }
     
     public ResultSet consultarServicios(){
-        String sql = "SELECT * FROM servicios WHERE idServicio=?";
+        String sql = "SELECT servicios.*,categorias.nombreCat FROM servicios,categorias WHERE servicios.idCategoria = categorias.idCategoria AND servicios.idServicio=?";
         ResultSet consultarServicios = null;
         try{
             PreparedStatement stm =this.cxDB.prepareStatement(sql);
