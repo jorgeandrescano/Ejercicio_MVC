@@ -155,11 +155,11 @@ public class Servicio {
     }
     
     public int eliminarServicios(){
-        String sql = "DELETE FROM servicios WHERE idServicio=idServicio";
+        String sql = "DELETE FROM servicios WHERE idServicio=?";
         int rowEliminados = 0;
         try{
             PreparedStatement stm = this.cxDB.prepareStatement(sql);
-            stm.setInt(1,this.idServicio);
+            stm.setInt(1, this.idServicio);
             rowEliminados = stm.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
@@ -168,3 +168,4 @@ public class Servicio {
     }
     
 }
+

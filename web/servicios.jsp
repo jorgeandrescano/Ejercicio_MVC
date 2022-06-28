@@ -109,12 +109,13 @@
                         <% } else { %>
                         <a href="ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=1" class="btn btn-primary btn-sm btn-success">Activar <i class="bi bi-unlock"></i></a>
                         <% } %>
+                        
                     </div>
                 </td>
                 <td>
                     <div class="d-grid gap-2 d-md-block">
                         <a href="ServiciosController?idEditar=<%=listaS.getInt("idServicio")%> " class="btn btn-primary btn-sm btn-warning">Editar</a> 
-                        <!--<a href="ServiciosController?btnEliminar=<%=listaS.getInt("idServicio")%> " class="btn btn-primary btn-sm btn-danger">Eliminar</a>-->
+                        <a href="ServiciosController?idEliminar=<%=listaS.getInt("idServicio")%> " class="btn btn-primary btn-sm btn-danger">Eliminar</a>
                         <!--<button class="btn btn-primary btn-sm btn-danger" type="submit" name="btnEliminar">Eliminar</button>-->
                     </div>
                 </td>

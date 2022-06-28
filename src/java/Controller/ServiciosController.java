@@ -36,10 +36,9 @@ public class ServiciosController extends HttpServlet {
 
         String btnGuardar = request.getParameter("btnGuardar");
         String btnModificar = request.getParameter("btnModificar");
-        String btnEliminar = request.getParameter("btnEliminar");
         String idServicio = request.getParameter("idServicio");
         String idEditar = request.getParameter("idEditar");
-        //String idEliminar = request.getParameter("idEliminar");
+        String idEliminar = request.getParameter("idEliminar");
         HttpSession miSession = request.getSession();
         HttpSession miSession1 = request.getSession();
 
@@ -159,46 +158,40 @@ public class ServiciosController extends HttpServlet {
             }
             response.sendRedirect("servicios.jsp");
 
-        }else if (btnEliminar != null) {
-            String txtNombreServ = request.getParameter("txtNombreServ");
-            String txtCategoria = request.getParameter("txtCategoria");
-            String txtMedida = request.getParameter("txtMedida");
-            String txtCosto = request.getParameter("txtCosto");
-            String txtEstado = request.getParameter("txtEstado");
-            String txtIdServicio = request.getParameter("txtIdServicio");
-
-            try {
-                Servicio objServ = new Servicio();
-                objServ.setnombreServ(txtNombreServ);
-                objServ.setidCategoria(Integer.parseInt(txtCategoria));
-                objServ.setmedida(txtMedida);
-                objServ.setcosto(Float.parseFloat(txtCosto));
-                objServ.setestado(Integer.parseInt(txtEstado));
-                objServ.setidServicio(Integer.parseInt(txtIdServicio));
-                
-                int resultado = objServ.eliminarServicios();
-
-                if (resultado == 1) {
-                    miSession.setAttribute("mensaje", "Swal.fire({\n"
-                            + "  title: 'ELIMINADO',\n"
-                            + "  text: '-- SOLUhome --',\n"
-                            + "  icon: 'success',\n"
-                            + "})");
-                } else {
-                    miSession.setAttribute("mensaje", "Swal.fire({\n"
-                            + "  title: 'NO ELIMINADO',\n"
-                            + "  text: '-- SOLUhome --',\n"
-                            + "  icon: 'error',\n"
-                            + "})");
-                }
-
-                //} catch (SQLException ex){
-                //Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NumberFormatException e) {
+        }else if(idEliminar != null) {            
+        try {
+            Servicio objServ = new Servicio();
+            objServ.setidServicio(Integer.parseInt(idEliminar));
+            
+            int resultado = objServ.eliminarServicios();
+            
+            if (resultado == 1){
+                miSession.setAttribute("mensaje", "Swal.fire({\n" +
+                                        "  title: '¿Estás seguro de eliminar este registro?',\n" +
+                                        "  text: \"Esta eliminación no se puede revertir!\",\n" +
+                                        "  icon: 'warning',\n" +
+                                        "  showCancelButton: true,\n" +
+                                        "  confirmButtonColor: '#3085d6',\n" +
+                                        "  cancelButtonColor: '#d33',\n" +
+                                        "  confirmButtonText: 'Si, eliminar!'\n" +
+                                        "}).then((result) => {\n" +
+                                        "  if (result.isConfirmed) {\n" +
+                                        "    Swal.fire(\n" +
+                                        "      '¡Registro eliminado!',\n" +
+                                        "      'El registro ha sido eliminado.',\n" +
+                                        "      'success'\n" +
+                                        "    )\n" +
+                                        "  }\n" +
+                                        "})");
+            }
+            
+        } catch(NumberFormatException e){
                 miSession.setAttribute("Registro", false);
                 miSession.setAttribute("msj", e.getMessage());
             }
-            response.sendRedirect("servicios.jsp");
+        
+         response.sendRedirect("servicios.jsp");
+         
         }
         /*try (PrintWriter out = response.getWriter()) {
              TODO output your page here. You may use following sample code. 
