@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 @WebServlet(name = "ServiciosController", urlPatterns = {"/ServiciosController"})
 public class ServiciosController extends HttpServlet {
-  
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,116 +33,175 @@ public class ServiciosController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String btnGuardar = request.getParameter("btnGuardar");
         String btnModificar = request.getParameter("btnModificar");
+        String btnEliminar = request.getParameter("btnEliminar");
         String idServicio = request.getParameter("idServicio");
-        String idEditar = request.getParameter("idEditar");  
+        String idEditar = request.getParameter("idEditar");
+        //String idEliminar = request.getParameter("idEliminar");
         HttpSession miSession = request.getSession();
         HttpSession miSession1 = request.getSession();
-        
-        if(btnGuardar != null) {
+
+        if (btnGuardar != null) {
             String txtNombreServ = request.getParameter("txtNombreServ");
             String txtCategoria = request.getParameter("txtCategoria");
             String txtMedida = request.getParameter("txtMedida");
-            String txtCosto= request.getParameter("txtCosto");
+            String txtCosto = request.getParameter("txtCosto");
             String txtEstado = request.getParameter("txtEstado");
-            
-        try {
-            Servicio objServ = new Servicio();
-            objServ.setnombreServ(txtNombreServ);
-            objServ.setidCategoria(Integer.parseInt(txtCategoria));
-            objServ.setmedida(txtMedida);
-            objServ.setcosto(Float.parseFloat(txtCosto));
-            objServ.setestado(Integer.parseInt(txtEstado));
-            //objServ.setestado(Boolean.valueOf(txtEstado));
-            int resultado = objServ.guardarServicios();
-            
-            if (resultado == 1){
-                miSession.setAttribute("Registro", true);
-            }else {
-                miSession.setAttribute("Registro", false);
-                miSession.setAttribute("msj", "No se pudo guardar");
-            }
-            
-        } catch(NumberFormatException e){
+
+            try {
+                Servicio objServ = new Servicio();
+                objServ.setnombreServ(txtNombreServ);
+                objServ.setidCategoria(Integer.parseInt(txtCategoria));
+                objServ.setmedida(txtMedida);
+                objServ.setcosto(Float.parseFloat(txtCosto));
+                objServ.setestado(Integer.parseInt(txtEstado));
+                //objServ.setestado(Boolean.valueOf(txtEstado));
+                int resultado = objServ.guardarServicios();
+
+                if (resultado == 1) {
+                    miSession.setAttribute("mensaje", "Swal.fire({\n"
+                            + "  title: 'Servicio registrado con éxito',\n"
+                            + "  text: '-- SOLUhome --',\n"
+                            + "  icon: 'success',\n"
+                            + "})");
+                } else {
+                    miSession.setAttribute("mensaje", "Swal.fire({\n"
+                            + "  title: 'No se pudo registrar el servicio',\n"
+                            + "  text: '-- SOLUhome --',\n"
+                            + "  icon: 'error',\n"
+                            + "})");
+                }
+            } catch (NumberFormatException e) {
                 miSession.setAttribute("Registro", false);
                 miSession.setAttribute("msj", e.getMessage());
             }
-        
-         response.sendRedirect("servicios.jsp");
-        
-        } else if (idServicio != null){
-            String Estado= request.getParameter("estado");
-            
-           try {
-                Servicio eServ= new Servicio();
-                eServ.setidServicio(Integer.parseInt(idServicio));
-                eServ.setestado(Integer.parseInt(Estado));
-                
-                if (eServ.cambiarServicio() == 1) {
-                    miSession.setAttribute("Registro", true);
-                    miSession.setAttribute("msj", "Cambio de estado con exito");
-                }else{
-                    miSession.setAttribute("Registro", false);
-                    miSession.setAttribute("msj", "No se pudo cambiar el estado");               
-                }
-                
-                response.sendRedirect("servicios.jsp");
-                
-           } catch (IOException | NumberFormatException ex) {
-                Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else if (idEditar != null){
-            try {
-                Servicio eServ= new Servicio();
-                eServ.setidServicio(Integer.parseInt(idEditar));
-                ResultSet resEditar= eServ.consultarServicios();
-                miSession.setAttribute("datosEdit", resEditar); 
-            } catch (NumberFormatException ex) {
-                 Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);               
-            }
-            
+
             response.sendRedirect("servicios.jsp");
-        }else if (btnModificar != null){
-            String txtCategoria = request.getParameter("txtCategoria");
+
+        } else if (btnModificar != null) {
             String txtNombreServ = request.getParameter("txtNombreServ");
+            String txtCategoria = request.getParameter("txtCategoria");
             String txtMedida = request.getParameter("txtMedida");
-            String txtCosto= request.getParameter("txtCosto");
+            String txtCosto = request.getParameter("txtCosto");
             String txtEstado = request.getParameter("txtEstado");
             String txtIdServicio = request.getParameter("txtIdServicio");
-            
-        try {
-            Servicio objServ = new Servicio();
-            objServ.setnombreServ(txtNombreServ);
-            objServ.setidCategoria(Integer.parseInt(txtCategoria));
-            objServ.setmedida(txtMedida);
-            objServ.setcosto(Float.parseFloat(txtCosto));
-            objServ.setestado(Integer.parseInt(txtEstado));
-            objServ.setidServicio(Integer.parseInt(txtIdServicio));
-            //objServ.setestado(Boolean.valueOf(txtEstado));
-            int resultado = objServ.editarServicios();
-            
-            if (resultado == 1){
-                miSession.setAttribute("Registro", true);
-                miSession.setAttribute("msj", "Registro editado");
-            }else {
+
+            try {
+                Servicio objServ = new Servicio();
+                objServ.setnombreServ(txtNombreServ);
+                objServ.setidCategoria(Integer.parseInt(txtCategoria));
+                objServ.setmedida(txtMedida);
+                objServ.setcosto(Float.parseFloat(txtCosto));
+                objServ.setestado(Integer.parseInt(txtEstado));
+                objServ.setidServicio(Integer.parseInt(txtIdServicio));
+                //objServ.setestado(Boolean.valueOf(txtEstado));
+                int resultado = objServ.editarServicios();
+
+                if (resultado == 1) {
+                    miSession.setAttribute("mensaje", "Swal.fire({\n"
+                            + "  title: 'Registro modificado con éxito',\n"
+                            + "  text: '-- SOLUhome --',\n"
+                            + "  icon: 'success',\n"
+                            + "})");
+                } else {
+                    miSession.setAttribute("mensaje", "Swal.fire({\n"
+                            + "  title: 'No se pudo modificar el servicio',\n"
+                            + "  text: '-- SOLUhome --',\n"
+                            + "  icon: 'error',\n"
+                            + "})");
+                }
+
+                //} catch (SQLException ex){
+                //Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NumberFormatException e) {
                 miSession.setAttribute("Registro", false);
-                miSession.setAttribute("msj", "No se pudo modificar");
+                miSession.setAttribute("msj", e.getMessage());
             }
-           
-        //} catch (SQLException ex){
-            //Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NumberFormatException e){
-            miSession.setAttribute("Registro", false);
-            miSession.setAttribute("msj", e.getMessage());
+            miSession.removeAttribute("datosEdit");
+            response.sendRedirect("servicios.jsp");
+        } else if (idServicio != null) {
+            String Estado = request.getParameter("estado");
+
+            try {
+                Servicio eServ = new Servicio();
+                eServ.setidServicio(Integer.parseInt(idServicio));
+                eServ.setestado(Integer.parseInt(Estado));
+
+                if (eServ.cambiarServicio() == 1) {
+                    miSession.setAttribute("mensaje", "Swal.fire({\n"
+                            + "  title: 'Se modificó el estado del servicio',\n"
+                            + "  text: '-- SOLUhome --',\n"
+                            + "  icon: 'success',\n"
+                            + "})");
+                } else {
+                    miSession.setAttribute("mensaje", "Swal.fire({\n"
+                            + "  title: 'No se pudo modificar el estado del servicio',\n"
+                            + "  text: '-- SOLUhome --',\n"
+                            + "  icon: 'error',\n"
+                            + "})");
+                }
+
+                response.sendRedirect("servicios.jsp");
+
+            } catch (IOException | NumberFormatException ex) {
+                Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (idEditar != null) {
+            try {
+                Servicio eServ = new Servicio();
+                eServ.setidServicio(Integer.parseInt(idEditar));
+                ResultSet resEditar = eServ.consultarServicios();
+                miSession.setAttribute("datosEdit", resEditar);
+            } catch (NumberFormatException ex) {
+                Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            response.sendRedirect("servicios.jsp");
+
+        }else if (btnEliminar != null) {
+            String txtNombreServ = request.getParameter("txtNombreServ");
+            String txtCategoria = request.getParameter("txtCategoria");
+            String txtMedida = request.getParameter("txtMedida");
+            String txtCosto = request.getParameter("txtCosto");
+            String txtEstado = request.getParameter("txtEstado");
+            String txtIdServicio = request.getParameter("txtIdServicio");
+
+            try {
+                Servicio objServ = new Servicio();
+                objServ.setnombreServ(txtNombreServ);
+                objServ.setidCategoria(Integer.parseInt(txtCategoria));
+                objServ.setmedida(txtMedida);
+                objServ.setcosto(Float.parseFloat(txtCosto));
+                objServ.setestado(Integer.parseInt(txtEstado));
+                objServ.setidServicio(Integer.parseInt(txtIdServicio));
+                
+                int resultado = objServ.eliminarServicios();
+
+                if (resultado == 1) {
+                    miSession.setAttribute("mensaje", "Swal.fire({\n"
+                            + "  title: 'ELIMINADO',\n"
+                            + "  text: '-- SOLUhome --',\n"
+                            + "  icon: 'success',\n"
+                            + "})");
+                } else {
+                    miSession.setAttribute("mensaje", "Swal.fire({\n"
+                            + "  title: 'NO ELIMINADO',\n"
+                            + "  text: '-- SOLUhome --',\n"
+                            + "  icon: 'error',\n"
+                            + "})");
+                }
+
+                //} catch (SQLException ex){
+                //Logger.getLogger(ServiciosController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NumberFormatException e) {
+                miSession.setAttribute("Registro", false);
+                miSession.setAttribute("msj", e.getMessage());
+            }
+            response.sendRedirect("servicios.jsp");
         }
-        miSession.removeAttribute("datosEdit");
-        response.sendRedirect("servicios.jsp");
-     }
-        
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+        /*try (PrintWriter out = response.getWriter()) {
+             TODO output your page here. You may use following sample code. 
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -152,10 +211,10 @@ public class ServiciosController extends HttpServlet {
             out.println("<h1>Servlet ServiciosController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-        }
+        }*/
     }
-    
-    public ResultSet listar() throws SQLException{
+
+    public ResultSet listar() throws SQLException {
         Servicio lServ = new Servicio();
         return lServ.listarServicios();
     }

@@ -97,7 +97,7 @@ public class Servicio {
     }
     
     public int editarServicios(){
-        String sql = "UPDATE servicios SET idCategoria=?, nombreServ=?, medida=?, costo=?, estado=?) WHERE idServicio=?";
+        String sql = "UPDATE servicios SET idCategoria=?, nombreServ=?, medida=?, costo=?, estado=? WHERE idServicio=?";
         int rowEditados = 0;
         try{
             PreparedStatement stm = this.cxDB.prepareStatement(sql);
@@ -128,7 +128,7 @@ public class Servicio {
     }
     
     public ResultSet consultarServicios(){
-        String sql = "SELECT servicios.*,categorias.nombreCat FROM servicios,categorias WHERE servicios.idCategoria = categorias.idCategoria AND servicios.idServicio=?";
+        String sql = "SELECT servicios.*,categorias.nombreCat FROM servicios, categorias WHERE servicios.idCategoria = categorias.idCategoria AND servicios.idServicio=? ";
         ResultSet consultarServicios = null;
         try{
             PreparedStatement stm =this.cxDB.prepareStatement(sql);
@@ -153,4 +153,18 @@ public class Servicio {
         }
         return rowCambiados;
     }
+    
+    public int eliminarServicios(){
+        String sql = "DELETE FROM servicios WHERE idServicio=idServicio";
+        int rowEliminados = 0;
+        try{
+            PreparedStatement stm = this.cxDB.prepareStatement(sql);
+            stm.setInt(1,this.idServicio);
+            rowEliminados = stm.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Servicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowEliminados;
+    }
+    
 }

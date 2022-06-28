@@ -13,15 +13,16 @@
     }
 %>
 
+
 <div class="container">
-    <p style="text-align: left;font-size: 30px; margin-top: 80px"> <strong>Servicios</strong>
+    <p style="text-align: left;font-size: 25px; margin-top: 80px"> <strong>Gestión de Servicios</strong>
     </p>
     <hr>
 </div>
 
 <div class="container" style="margin-top: 30px">
     <form action="ServiciosController" method="post" id="form-serv">
-        <input class="form-control" type="hidden" name="txtIdServicio" value="<%= datosEditar != null? datosEditar.getInt("idServicio"): ""%>">
+        <input class="form-control" type="hidden" name="txtIdServicio" value="<%= datosEditar != null?datosEditar.getInt("idServicio"): ""%>">
         <div class="row mb-4">
             <div class="col-4">
                 <label class="form-label">Nombre del Servicio</label>
@@ -61,13 +62,14 @@
             <div class="col-4">
                 <br>
                 <%if(datosEditar != null) {%>
-                <button type="submit" class="btn btn-warning p-1 px-2 mt-2" name="btnModificar">Modificar</button>
+                <button type="submit" class="btn btn-warning p-1 px-2 mt-2" name="btnModificar"><i class="bi bi-arrow-clockwise" style="font-size:17px"> Modificar</i></button>
                 <% }else{ %>
-                <button type="submit" class="btn btn-success p-1 px-2 mt-2" name="btnGuardar">+Agregar</button>
+                <button type="submit" class="btn btn-success p-1 px-2 mt-2" name="btnGuardar" ><i class="bi bi-file-earmark-plus" style="font-size:17px"> Crear</i></button>
                 <% } %>
             </div>
         </div>
     </form>
+    <br>
 </div>
 
 <div class="container">
@@ -76,14 +78,16 @@
     <br>
     <table class="table table-striped">
         <thead>
-            <tr class="table-dark">
+            <tr class="table-dark text-center">
                 <th scope="col">Id Servicio</th>
                 <th scope="col">Categoría</th>
                 <th scope="col">Servicio</th>
                 <th scope="col">Medida</th>
                 <th scope="col">Costo</th>
                 <th scope="col">Estado</th>
-                <th scope="col">Acciones</th>
+                <th scope="col"><i class="bi bi-exclamation-triangle" style="font-size:20px"></i></th>
+                <th scope="col"><i class="bi bi-pencil-square" style="font-size:20px"></i></th>
+                <!--<th scope="col">Acciones</th>-->
             </tr>
         </thead>
         <tbody>
@@ -91,7 +95,7 @@
                 ResultSet listaS = listaServ.listar();
                 while(listaS.next()) {
             %>    
-            <tr>
+            <tr class="text-center">
                 <td><%=listaS.getInt("idServicio")%></td>
                 <td><%=listaS.getString("nombreCat")%></td>
                 <td><%=listaS.getString("nombreServ")%></td>
@@ -100,17 +104,22 @@
                 <td><%=listaS.getInt("estado") == 1 ? "Activo" : "Inactivo"%></td>
                 <td>
                     <div class="d-grid gap-2 d-md-block">
-                        <a href="ServiciosController?idEditar=<%=listaS.getInt("idServicio")%>" class="btn btn-primary btn-sm btn-warning">Editar</a>
                         <% if(listaS.getInt("Estado") == 1){ %>
-                            <a href="/ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=0" class="btn btn-primary btn-sm btn-primary">Inactivar</a>
+                        <a href="ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=0" class="btn btn-primary btn-sm btn-primary">Inactivar <i class="bi bi-lock"></i></a>
                         <% } else { %>
-                            <a href="/ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=1" class="btn btn-primary btn-sm btn-success">Activar</a>
+                        <a href="ServiciosController?idServicio=<%=listaS.getInt("idServicio")%>&estado=1" class="btn btn-primary btn-sm btn-success">Activar <i class="bi bi-unlock"></i></a>
                         <% } %>
-                        <button class="btn btn-primary btn-sm btn-danger" type="button" name="btnEliminar">Eliminar</button>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-grid gap-2 d-md-block">
+                        <a href="ServiciosController?idEditar=<%=listaS.getInt("idServicio")%> " class="btn btn-primary btn-sm btn-warning">Editar</a> 
+                        <!--<a href="ServiciosController?btnEliminar=<%=listaS.getInt("idServicio")%> " class="btn btn-primary btn-sm btn-danger">Eliminar</a>-->
+                        <!--<button class="btn btn-primary btn-sm btn-danger" type="submit" name="btnEliminar">Eliminar</button>-->
                     </div>
                 </td>
             </tr>
-                <% } %> 
+            <% } %> 
         </tbody>
 
     </table>
@@ -119,13 +128,9 @@
 <%@include file="Layout/Footer.jsp"%>
 
 <script>
-    /*$(function(){
-        $("#form-serv").validate(
-                errorClass:"text-danger")
-    });*/
-    $(document).ready(function() {
-  $("#form-serv").validate({
-          errorClass: "text-danger"});
-});
-                
+    $(document).ready(function () {
+        jQuery.validator.messages.required = 'Este campo es obligatorio.';
+        $("#form-serv").validate({
+            errorClass: "text-danger"});
+    });
 </script>
